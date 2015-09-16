@@ -67,10 +67,18 @@ getJasmineRequireObj().Spec = function(j$) {
 
     function complete(enabledAgain) {
       self.result.status = self.status(enabledAgain);
-      self.resultCallback(self.result);
+      var callbackResponse = self.resultCallback(self.result);
 
       if (onComplete) {
-        onComplete();
+        if (j$.Q && j$.Q.isPromise(callbackResponse)) {
+          callbackResponse
+            .then(onComplete)
+            .catch(function() {
+              self.onException.apply(self, arguments);
+            });
+        } else {
+          onComplete();
+        }
       }
     }
   };

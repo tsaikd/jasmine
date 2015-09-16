@@ -365,7 +365,7 @@ getJasmineRequireObj().Env = function(j$) {
       function specResultCallback(result) {
         clearResourcesForRunnable(spec.id);
         currentSpec = null;
-        reporter.specDone(result);
+        return reporter.specDone(result);
       }
 
       function specStarted(spec) {
